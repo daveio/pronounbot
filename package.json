@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/tory-toolkit/pronounbot#readme",
   "dependencies": {
+    "@types/node": "^12.12.21",
     "chai": "^4.2.0",
     "discord.js": "^11.5.1",
     "mocha": "^6.2.2",
