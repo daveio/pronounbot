@@ -18,26 +18,16 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-  let checkForCommands = false;
-  if (message.guild === null && message.author.username != 'pronounbot') {
+
+  if (message.guild === null && !message.author.bot) {
     message.reply(`Please say commands in a channel, so the bot knows which instance you're from.
     You can say the following:
     \`list available pronouns   \` -- Get a list of available pronoun sets
     \`my pronouns are IDENTIFIER\` -- Set your pronouns to IDENTIFIER`);
-  } else if (message.author.username != 'pronounbot') {
-    const pronouns = pronounify.extractPronouns(message);
+  } else if (!message.author.bot) {
     pronounify.listPronouns(message);
     pronounify.addPronouns(message);
-    if (pronouns) {
-      const guildRoles = message.guild.roles;
-      const member = message.member;
-      const returnMessage = pronounify.setPronouns(pronouns, guildRoles, member);
-      if (returnMessage) {
-        message.channel.send(returnMessage);
-      } else {
-        console.log('there was a problem setting roles, missing role?');
-      }
-    }
+    pronounify.setPronouns(message);
   }
 });
 

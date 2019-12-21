@@ -1,10 +1,10 @@
 const pronounsList = require('./pronounsList');
 const pronounsArray = Object.keys(pronounsList);
 
-const extractPronouns = function(message) {
-  let command = message.content;
+const extractPronouns = function (content) {
+  let command = content.toLowerCase();
   let splitCommand;
-  if (command.toLowerCase().startsWith('my pronouns are')) {
+  if (command.startsWith('my pronouns are')) {
     try {
       splitCommand = command.split('are')[1].trim();
     } catch (e) {
@@ -15,8 +15,8 @@ const extractPronouns = function(message) {
 };
 
 const listPronouns = message => {
-  let command = message.content;
-  if (command.toLowerCase().startsWith('list available pronouns')) {
+  let command = message.content.toLowerCase();
+  if (command.startsWith('list available pronouns')) {
     let respText = '';
     pronounsArray.forEach(element => {
       respText += `- \`${element}\`\n`;
@@ -28,7 +28,14 @@ const listPronouns = message => {
   }
 };
 
-const setPronouns = function(roleName, guildRoles, member) {
+const setPronouns = function (message) {
+
+  const roleName = extractPronouns(message.content);
+  if (roleName === undefined || roleName === null) return;
+
+  const guildRoles = message.guild.roles;
+  const member = message.member;
+
   const role = guildRoles.find(r => r.name === roleName);
   if (role) {
     member
@@ -40,14 +47,14 @@ const setPronouns = function(roleName, guildRoles, member) {
       .then(ret => {
         member.addRole(role).catch(console.error);
       });
-    return `Success! We've set your pronouns to ${roleName}. Click on your avatar in the member list to see them.`;
+      return message.channel.send(`Success! We've set your pronouns to ${roleName}. Click on your avatar in the member list to see them.`);
   }
-  return null;
+  console.log('there was a problem setting roles, missing role?');
 };
 
 const addPronouns = message => {
-  let command = message.content;
-  if (command.toLowerCase().startsWith('do pronoun setup') && process.env.ALLOW_PRONOUN_SETUP === 'yes') {
+  let command = message.content.toLowerCase();
+  if (command.startsWith('do pronoun setup') && process.env.ALLOW_PRONOUN_SETUP === 'yes') {
     let guild = message.guild;
     pronounsArray.forEach(r => {
       guild
@@ -61,8 +68,8 @@ const addPronouns = message => {
 };
 
 module.exports = {
+  addPronouns,
   extractPronouns,
-  setPronouns,
   listPronouns,
-  addPronouns
+  setPronouns
 };
