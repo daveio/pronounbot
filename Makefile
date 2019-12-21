@@ -9,7 +9,7 @@ test:
 	node_modules/.bin/mocha
 
 bot-start:
-	./node_modules/.bin/pm2 start index.js --name "pronounbot"
+	./node_modules/.bin/pm2 start index.js --name "pronounbot" --no-daemon
 
 bot-status:
 	./node_modules/.bin/pm2 l
