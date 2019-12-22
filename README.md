@@ -4,6 +4,30 @@
 
 The purpose of this bot is for people to assign themselves roles which represent pronouns. This is a nodejs application that is happy to run in node:10 or later.
 
+## Usage and main Functionality
+
+This bot has 3 main functions which are available in discord channels:
+
+```
+my pronouns are subject/object
+list available pronouns
+do pronoun setup
+```
+
+### my pronouns are subject/object
+
+This command will set your role to the subject/object pronoun that you specify if it is available in the list of pronouns, you can find the full list of pronouns [here](./src/pronounsList.json) or by using the `list available pronouns` command. If you'd like to add some pronouns please make a pull request or message one of the contributors if you don't know how, or if you are running your own instance replace the `pronounsList.json`.
+
+### list available pronouns
+
+This command will DM you the full set of available pronouns for the given instance of this bot.
+
+### do pronoun setup
+
+You can toggle this command on/off with the following environment variable `ALLOW_PRONOUN_SETUP=yes`
+
+This command will loop through the pronounsList and create a role for each of the subject/object pairs. Each of these roles will have the same permissions as your @everyone role.
+
 ## Discordjs
 
 The main functionality for this project comes from [discordjs](https://discord.js.org/#/docs/main/stable/general/welcome).
@@ -18,6 +42,12 @@ or
 $ make prepare
 or 
 $ make build
+```
+
+or if you don't have make because you're in the windows ecosystem, you can use
+
+```bash
+$ npm ci
 ```
 
 ## Running the bot
@@ -43,14 +73,20 @@ We will need a discord developer account with a bot setup on it so that this app
 
 ### Roles
 
-The server should have roles that match the pronouns listed in `src/pronounsList.json`, the implementation can be modified to create these automatically on startup and could be modified to create new ones out of approved combinations if required in future.
+The server should have roles that match the pronouns listed in `src/pronounsList.json`, you can either create these manually or use the `do pronoun setup` command if the bot has this enabled.
 
 ### Environment variables
 
-Requires a discord token to start
+The bot requires a discord token to start which you can specify using an environment variable
 
-```
+```bash
 $ export DISCORD_API_TOKEN=123potato
+```
+
+If you'd like to enable the `do pronoun setup` command you can do so with the following environment variable
+
+```bash
+$ export ALLOW_PRONOUN_SETUP=yes
 ```
 
 ## Tests
@@ -58,8 +94,3 @@ $ export DISCORD_API_TOKEN=123potato
 Testing is with [mocha](https://mochajs.org/api/), [chai](https://www.chaijs.com/api/) and [sinon](https://sinonjs.org/).
 
 You can run tests with `make test` or `npm test`
-
-
-# TODO
-
-Help function needs writing and links added to [pronoun island](http://pronoun.is/)
