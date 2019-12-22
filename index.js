@@ -19,12 +19,14 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
-  if (message.guild === null && !message.author.bot) {
+  if (message.author.bot) return;
+
+  if (message.guild === null) {
     message.reply(`Please say commands in a channel, so the bot knows which instance you're from.
     You can say the following:
     \`list available pronouns   \` -- Get a list of available pronoun sets
     \`my pronouns are IDENTIFIER\` -- Set your pronouns to IDENTIFIER`);
-  } else if (!message.author.bot) {
+  } else {
     pronounify.listPronouns(message);
     pronounify.addPronouns(message);
     pronounify.setPronouns(message);
