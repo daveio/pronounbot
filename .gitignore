@@ -63,3 +63,4 @@ typings/
 # IDE gubbins
 .vscode/*
 .vscode
+*.code-workspace
