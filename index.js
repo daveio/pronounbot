@@ -14,6 +14,9 @@ validate.token(token);
 const client = new Discord.Client();
 
 client.on('ready', () => {
+  client.user.setActivity(`v${Pjson.version} | my pronouns are it/it`, { type: 'PLAYING' })
+    .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
+    .catch(console.error);
   console.log("I'm up!");
 });
 
